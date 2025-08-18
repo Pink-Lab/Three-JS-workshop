@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Three JS
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -67,3 +67,70 @@ export default tseslint.config([
   },
 ])
 ```
+
+## Step 1 Setup
+
+```bash
+$ npm create vite@latest my-3d-app --template react-ts
+$ cd my-3d-app
+$ npm install three @react-three/fiber @react-three/drei
+$ npm run dev
+ ```
+
+## Step 2 First Scene
+
+```ts
+import * as THREE from "three"
+import { Canvas } from "@react-three/fiber"
+
+export default function App () {
+
+  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  camera.position.set( 0 , 0, 100 );
+  camera.lookAt( 0, 0, 0 );
+
+  return (
+    <Canvas camera={camera} style={{height: "100vh", width: "100vw", backgroundColor: "#000"}}>
+    
+    </Canvas>
+  )
+}
+ ```
+## Step 3 Lights & Materials
+function for create `Box`
+```ts 
+function SpinningCube(props: JSX.IntrinsicElements['mesh']) {
+  const meshRef = useRef<THREE.Mesh>(null!)
+
+  return (
+    <mesh
+      {...props}
+      ref={meshRef}
+    >
+      <boxGeometry args={[1, 10, 10]} />
+      <meshStandardMaterial color="hotpink" />
+    </mesh>
+  )
+}
+```
+
+`<"HTML Tag" args={{x, y, z}}>`
+
+| HTML Tag | 3D Model
+| - | -
+`<planeGeometry>`| plane object 
+`<boxGeometry>`| Cube object 
+`<cylinderGeometry>`| cylinder object
+`<circleGeometry>`| circle object 
+`<sphereGeometry>`| sphere object 
+
+## Step 4 Camera Controls
+add this to `<Canvas>`
+```ts
+<OrbitControls enablePan={true} enableZoom={true} enableRotate={true} >
+ ```
+## Step 5 Load Model
+## Step 6 Interactivity
+## Step 7 Textures
+## Step 8 Wrap-Up
+
