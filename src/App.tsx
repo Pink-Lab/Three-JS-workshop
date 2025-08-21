@@ -1,12 +1,12 @@
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
-import { Suspense, useEffect, useMemo, useRef, useState, type JSX } from "react";
-// import  RGBELoader  from "../public/";
-// import * as THREE from "three"
-import { Environment, Html, OrbitControls, useGLTF } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber"
+import { Suspense,  useMemo, useRef, useState, type JSX } from "react";
+import { Environment, Html, OrbitControls, OrthographicCamera } from "@react-three/drei";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import helvetiker from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import { DoubleSide, PerspectiveCamera, type Group, type Mesh } from "three";
 import Model from "./routes/Model";
+import CharacterMove from "./routes/CharacterMove";
+import { FollowCamera } from "./routes/FollowCamera";
 
 type GLTFResult = {
   scene: Group;
@@ -63,11 +63,19 @@ function Popup({ position, onClose }) {
 
 function App() {
 
-  const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  const charRef = useRef<Group>(null);
+
+  // const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+// const camera = new OrthographicCamera(
+//   -10, 10, 10, -10, 0.1, 1000
+// );
+// camera.position.set(0, 5, 10);
+// camera.lookAt(0, 0, 0);
 
   const [isActive, setActive] = useState(false)
-  camera.position.set( 0 , 0, 30 );
-  camera.lookAt( 0, 0, 0 );
+  // camera.position.set( 0 , 0, 30 );
+  // camera.lookAt( 0, 0, 0 );
 
   const [arrayRotation, setArrayRotation] = useState<[number, number, number]>([0, 0, 0]);
 
@@ -84,25 +92,35 @@ function App() {
 
   return (
     <>
-    <Canvas camera={camera} style={{ height: "60vh", width: "60vw", backgroundColor: "#000" }}>
+    <Canvas style={{ height: "60vh", width: "60vw", backgroundColor: "#000" }}>
+      <OrthographicCamera 
+    makeDefault 
+    position={[2, 10, 10]}
+    rotation={[-.4, .2, 0]}
+    // lookAt={[0, 0, 0]}
+    zoom={20} 
+    near={0.1} 
+    far={1000} 
+  />
       {/* <SpinningCube onClick={()=>setActive(!isActive)} position={[1, 1, 1]} /> */}
       {isActive &&
 
       <Popup position={[0, 1.5, 0]} onClose={() => setActive(false)} />
       }
+      <CharacterMove scale={5} position={[0,-2,0]} />
       <ambientLight intensity={0.5} />
       <Suspense fallback={null}>
       <Model scale={2} rotation={arrayRotation} />
-        {/* <Model scale={0.5} /> */}
       </Suspense>
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <directionalLight position={[-5, -5, -5]} intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} />
-      <hemisphereLight groundColor={0x000000} intensity={0.5} />
-      <spotLight position={[-10, -10, -10]} angle={0.15} penumbra={1} intensity={2} />
+      {/* <directionalLight position={[5, 5, 5]} intensity={1} /> */}
+      {/* <directionalLight position={[-5, -5, -5]} intensity={0.5} /> */}
+      {/* <pointLight position={[10, 10, 10]} intensity={1} /> */}
+      {/* <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} /> */}
+      {/* <hemisphereLight groundColor={0x000000} intensity={0.5} /> */}
+      {/* <spotLight position={[-10, -10, -10]} angle={0.15} penumbra={1} intensity={2} /> */}
+      {/* <FollowCamera target={charRef} /> */}
       <Environment files={["bloem_field_sunrise_1k.hdr"]} background={true} />
-      <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
+      {/* <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} /> */}
     </Canvas>
 
      {/* Modal Overlay */}

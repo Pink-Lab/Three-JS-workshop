@@ -10,7 +10,7 @@ type GLTFResult = {
 
 export default function Model(props: JSX.IntrinsicElements["group"]) {
   // const { scene } = useGLTF("/model.glb") as GLTFResult;
-  const { scene } = useGLTF("/model/model.glb") as GLTFResult;
+  const { scene } = useGLTF("/model/GLTF/model.gltf") as GLTFResult;
   const ref = useRef<Group>(null);
   const texture = useTexture("/model/hhhh.png");
 
@@ -40,7 +40,3 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
 
   return <primitive dispose={null} object={scene} {...props} ref={ref} />;
 }
-
-// Preload to make it faster
-// useGLTF.preload("/model.glb");
-// useGLTF.preload("/model/model.gltf");
