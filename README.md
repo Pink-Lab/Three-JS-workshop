@@ -99,10 +99,19 @@ $ npm run dev
 In this step, we set up a basic 3D scene using React Three Fiber and Three.js. This provides the foundation to start adding objects, lights, and animations.
 
 ### 1. Import dependencies
+Have 2 way of import
+
+first way `import * as THREE from "three"` 
 ```tsx
 import * as THREE from "three"
 import { Canvas } from "@react-three/fiber"
  ```
+ second way `import {attribute} as @react-three/drei` or `import {attribute} as @react-three/fiber`
+
+ ```tsx
+import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+  ```
 `THREE` provides core 3D functionalities like cameras, geometries, and materials.
 
 `Canvas` is the React Three Fiber component that renders the 3D scene in React.
@@ -139,8 +148,6 @@ function SpinningCube(props: JSX.IntrinsicElements['mesh']) {
   )
 }
 ```
-
-
 
 | HTML Tag | 3D Model
 | - | -
@@ -202,7 +209,7 @@ assign model to scene
 <primitive object={scene} scale={2} />
  ```
 ## Step 6 Interactivity
-### this code function for rotate object 1 time per click
+this code function for rotate object 1 time per click
 ``` ts
   const [arrayRotation, setArrayRotation] = useState([0, 0, 0]);
 
@@ -216,7 +223,7 @@ assign model to scene
     });
   };
 ```
-### this code for loop 
+this code for loop rotation object by Y Axis
 ```tsx
   // Rotate every frame
   useFrame((_, delta) => {
@@ -229,11 +236,11 @@ assign model to scene
 rotation={arrayRotation} 
 ``` 
 ## Step 7 Textures & Environment Maps
-### 1 assign texture picture to texture
+1 assign texture picture to texture const
 ``` ts 
 const texture = useTexture("/model/hhhh.png");
 ```
-### 2 map texture in model glb
+2 map texture in model glb
 ``` ts
   React.useEffect(() => {
     scene.traverse((child) => {
