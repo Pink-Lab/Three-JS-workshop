@@ -65,7 +65,7 @@ function App() {
 
   const charRef = useRef<Group>(null);
 
-  // const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 // const camera = new OrthographicCamera(
 //   -10, 10, 10, -10, 0.1, 1000
@@ -74,8 +74,8 @@ function App() {
 // camera.lookAt(0, 0, 0);
 
   const [isActive, setActive] = useState(false)
-  // camera.position.set( 0 , 0, 30 );
-  // camera.lookAt( 0, 0, 0 );
+  camera.position.set( 0 , 0, 30 );
+  camera.lookAt( 0, 0, 0 );
 
   const [arrayRotation, setArrayRotation] = useState<[number, number, number]>([0, 0, 0]);
 
@@ -92,8 +92,8 @@ function App() {
 
   return (
     <>
-    <Canvas style={{ height: "60vh", width: "60vw", backgroundColor: "#000" }}>
-      <OrthographicCamera 
+    <Canvas camera={camera} style={{ height: "60vh", width: "60vw", backgroundColor: "#000" }}>
+      {/* <OrthographicCamera 
     makeDefault 
     position={[2, 10, 10]}
     rotation={[-.4, .2, 0]}
@@ -101,8 +101,8 @@ function App() {
     zoom={20} 
     near={0.1} 
     far={1000} 
-  />
-      {/* <SpinningCube onClick={()=>setActive(!isActive)} position={[1, 1, 1]} /> */}
+  /> */}
+      <SpinningCube onClick={()=>setActive(!isActive)} position={[1, 1, 1]} />
       {isActive &&
 
       <Popup position={[0, 1.5, 0]} onClose={() => setActive(false)} />
